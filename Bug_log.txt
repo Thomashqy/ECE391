@@ -1,0 +1,78 @@
+CHECKPOINT 1
+
+Date Found: 10/16/16
+Bug: RTC handler only called once
+Solution: Resolved by setting interrupt flag in handler
+
+Date Found: 10/16/16
+Bug: Keyboard printed while on exception "blue screen"
+Solution: Clear interrupts at the start of exception handlers
+
+
+CHECKPOINT 2
+
+Date Found: 10/22/16
+Bug: Nothing was printed to the screen when reading a file (frame0.txt, frame1.txt)
+Solution: Set the inode number by reading the value from the module that was launched in Kernel.c instead of hardcoding a value to it
+
+Date Found: 10/22/16
+Bug: File system not accessing the correct inodes and datablocks
+Solution: Solved it by setting appropriate parentheses to make sure that arithmetic was done before typecasting. Typecasting before doing arithmetic resulted in incorrect placemarkers of the start of the inode blocks and data blocks
+
+Date Found: 10/22/16
+Bug: File system not reading complete information from datablocks
+Solution: increment the index in the read loop so that the appropriate datablock index in the inode is accessed
+
+Date Found: 10/22/16
+Bug: RTC caused page fault when handler was called
+Solution: Added assembly linkage from IDT to handler function
+
+Date Found: 10/22/16
+Bug: Keyboard handler entered if statement without meeting condition and caused page fault
+Solution: Resolved by adding assembly linkage
+
+Date Found: 10/22/16
+Bug: Ctrl, Shift, Alt, and Caps lock key presses sometimes behave as "sticky keys"
+Solution: Resolved by sending sti and EOI and end of handler
+
+
+CHECKPOINT 3 & 4
+
+Date Found: 11/4/16
+Bug: Execute causing page fault after the iret instruction.
+Solution: Load ds register with user data segment, change esp values for the user, load full program image into memory
+
+Date Found: 11/7/16
+Bug: Page fault exception with execute
+Solution: Constant was 8mb when it was supposed to be 128mb
+
+Date Found: 11/7/16
+Bug: Page fault exception handler does not output correct information
+Solution: Fixed so that the virtual address, address being accessed, and cs values are displayed
+
+Date Found: 11/7/16
+Bug: Page faults in general
+Solution: Flush the TLBs when repaging 
+
+
+CHECKPOINT 5
+
+Date Found: 12/3/2016
+Bug: OS was "triple page faulting" and "double page faulting"
+Solution: Solved by restoring and saving the TSS esp0 value
+
+Date Found: 12/3/2016
+Bug: Divide-by-Zero exception
+Solution: Initialize the rtc rates
+
+Date Found: 12/4/2016
+Bug: Paging errors
+Solution: Used bitwise OR and AND operations (aka | & ) instead of || && when adding flags to a physical address value
+
+Date Found: 12/4/2016
+Bug: Fish program appears in other terminals when it is only called in one
+Solution: 1) Flush the TLBs in newly created page-remapping functions, 2) Map the user video memory page when switching terminals
+
+Date Found: 12/4/2016
+Bug: Fish wont show up unless characters were drawn over the position where the fish program was to be displayed
+Solution: Initialize during scheduling the video memory buffer for each terminal to spaces (they were NULL before)
